@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.apps.asritha.fivecards.Instructions">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Each card has points ranging from 0-10. Ace is 1, Two is 2, .... Ten is 10, Jack, Queen and King are 10. Joker is 0. The objective of the game is to have minimum points.\n\n
+    HOW TO PLAY:\n\nYou have to draw a card from the deck or from the opencard and you have to discard one card.\n\nYou don't have to draw a card if the opencard and the card(s) you discard are same.\n\n
+    You can discard Rummy sets and multiples of any card from different suits.\n\nYou declare when you think you have minimum points. If you have less than the computer, you win else computer wins.\n\n
+    At any point in the game you should have atleast one card with you."/>
+
+</RelativeLayout>
