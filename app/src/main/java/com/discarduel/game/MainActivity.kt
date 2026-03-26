@@ -9,6 +9,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.discarduel.game.ui.screens.GamePhase
+import com.discarduel.game.ui.screens.GameResult
+import com.discarduel.game.ui.screens.GameResultsScreen
 import com.discarduel.game.ui.screens.MainGameplayScreen
 import com.discarduel.game.ui.theme.FiveCardsTheme
 import java.util.Collections
@@ -88,6 +90,10 @@ class MainActivity : AppCompatActivity() {
     private var uiSelectedIndices by mutableStateOf<Set<Int>>(emptySet())
     private var uiCanDeclare by mutableStateOf(false)
     private var uiIsPlayerTurn by mutableStateOf(false)
+    private var uiShowResults by mutableStateOf(false)
+    private var uiGameResult by mutableStateOf(GameResult.WIN)
+    private var uiPlayerPts by mutableIntStateOf(0)
+    private var uiComputerPts by mutableIntStateOf(0)
 
     // ── Game logic state ──
     private var jokerCard: Card? = null
@@ -114,28 +120,38 @@ class MainActivity : AppCompatActivity() {
         })
         setContent {
             FiveCardsTheme {
-                MainGameplayScreen(
-                    phase = uiPhase,
-                    statusMessage = uiStatus,
-                    computerCardCount = uiComputerCardCount,
-                    computerHandPoints = uiComputerHandPoints,
-                    playerHand = uiPlayerHand,
-                    playerHandPoints = uiPlayerHandPoints,
-                    openCard = uiOpenCard,
-                    jokerCard = uiJokerCard,
-                    jokerRank = uiJokerRank,
-                    cardImages = cardImages,
-                    deckCount = uiDeckCount,
-                    selectedIndices = uiSelectedIndices,
-                    canDeclare = uiCanDeclare,
-                    isPlayerTurn = uiIsPlayerTurn,
-                    onCardSelected = { index -> toggleCardSelection(index) },
-                    onDrawFromDeck = { drawFromDeck() },
-                    onDrawFromOpen = { drawFromOpen() },
-                    onDiscard = { discard() },
-                    onDeclare = { declareNow() },
-                    onNewGame = { startGame() }
-                )
+                if (uiShowResults) {
+                    GameResultsScreen(
+                        result = uiGameResult,
+                        playerScore = uiPlayerPts,
+                        computerScore = uiComputerPts,
+                        onPlayAgain = { uiShowResults = false; startGame() },
+                        onMainMenu = { finish() }
+                    )
+                } else {
+                    MainGameplayScreen(
+                        phase = uiPhase,
+                        statusMessage = uiStatus,
+                        computerCardCount = uiComputerCardCount,
+                        computerHandPoints = uiComputerHandPoints,
+                        playerHand = uiPlayerHand,
+                        playerHandPoints = uiPlayerHandPoints,
+                        openCard = uiOpenCard,
+                        jokerCard = uiJokerCard,
+                        jokerRank = uiJokerRank,
+                        cardImages = cardImages,
+                        deckCount = uiDeckCount,
+                        selectedIndices = uiSelectedIndices,
+                        canDeclare = uiCanDeclare,
+                        isPlayerTurn = uiIsPlayerTurn,
+                        onCardSelected = { index -> toggleCardSelection(index) },
+                        onDrawFromDeck = { drawFromDeck() },
+                        onDrawFromOpen = { drawFromOpen() },
+                        onDiscard = { discard() },
+                        onDeclare = { declareNow() },
+                        onNewGame = { startGame() }
+                    )
+                }
             }
         }
     }
@@ -164,6 +180,7 @@ class MainActivity : AppCompatActivity() {
         syncUi()
         uiCanDeclare = false
         uiIsPlayerTurn = true
+        uiShowResults = false
         uiPhase = GamePhase.GAME_STARTED
     }
 
@@ -307,12 +324,14 @@ class MainActivity : AppCompatActivity() {
         uiIsPlayerTurn = false
         uiCanDeclare = false
         syncUi()
-        uiStatus = when {
-            compPts < playerPts -> "Computer declares! Computer: $compPts pts vs Your: $playerPts pts. Computer wins!"
-            playerPts < compPts -> "Computer declares — but you had fewer points! You: $playerPts vs Computer: $compPts. You win!"
-            else -> "Computer declares — it's a tie! Both have $compPts points."
+        uiPlayerPts = playerPts
+        uiComputerPts = compPts
+        uiGameResult = when {
+            compPts < playerPts -> GameResult.LOSE
+            playerPts < compPts -> GameResult.WIN
+            else                -> GameResult.DRAW
         }
-        uiPhase = GamePhase.IDLE
+        uiShowResults = true
     }
 
     // ── Player declares ──
@@ -325,12 +344,14 @@ class MainActivity : AppCompatActivity() {
         uiIsPlayerTurn = false
         uiCanDeclare = false
         syncUi()
-        uiStatus = when {
-            playerPts < compPts -> "You declare! You: $playerPts pts vs Computer: $compPts pts. You win!"
-            compPts < playerPts -> "You declare — Computer had fewer points. You: $playerPts vs Computer: $compPts. Computer wins!"
-            else -> "Tie! Both have $playerPts points."
+        uiPlayerPts = playerPts
+        uiComputerPts = compPts
+        uiGameResult = when {
+            playerPts < compPts -> GameResult.WIN
+            compPts < playerPts -> GameResult.LOSE
+            else                -> GameResult.DRAW
         }
-        uiPhase = GamePhase.IDLE
+        uiShowResults = true
     }
 
     // ── Score calculation ──
