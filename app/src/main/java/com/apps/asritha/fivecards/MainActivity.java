@@ -2,30 +2,27 @@ package com.apps.asritha.fivecards;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Random;
 
 
 public class MainActivity extends Activity {
 
-    private Card AllCards, Joker;
+    private Card Joker;
     private LinkedList<Card> Deck;
-    ImageButton opencard, joker, deck;
+    ImageButton openCard, joker, deck;
     ImageButton[] card = new ImageButton[6];
     ImageButton[] c = new ImageButton[5];
     Button startButton;
     Card.Rank jokerRank;
-    Button discard, draw, declare;
+    Button discard, declare;
     float scaleX, scaleY;
     TextView instruction;
     boolean PlayerTurn;
@@ -40,12 +37,10 @@ public class MainActivity extends Activity {
             R.drawable.diamonds_4, R.drawable.diamonds_5, R.drawable.diamonds_6, R.drawable.diamonds_7, R.drawable.diamonds_8, R.drawable.diamonds_9,
             R.drawable.diamonds_10, R.drawable.jack_of_diamonds2, R.drawable.queen_of_diamonds2, R.drawable.king_of_diamonds2, R.drawable.ace_of_hearts,
             R.drawable.hearts_2, R.drawable.hearts_3, R.drawable.hearts_4, R.drawable.hearts_5, R.drawable.hearts_6, R.drawable.hearts_7,
-            R.drawable.hearts_8, R.drawable.hearts_9, R.drawable.hearts_10,R.drawable.jack_of_hearts2, R.drawable.queen_of_hearts2, R.drawable.king_of_hearts2,
+            R.drawable.hearts_8, R.drawable.hearts_9, R.drawable.hearts_10, R.drawable.jack_of_hearts2, R.drawable.queen_of_hearts2, R.drawable.king_of_hearts2,
             R.drawable.ace_of_spades, R.drawable.spades_2, R.drawable.spades_3, R.drawable.spades_4, R.drawable.spades_5, R.drawable.spades_6,
             R.drawable.spades_7, R.drawable.spades_8, R.drawable.spades_9, R.drawable.spades_10, R.drawable.jack_of_spades2,
             R.drawable.queen_of_spades2, R.drawable.king_of_spades2, R.drawable.black_joker, R.drawable.red_joker};
-    Random rand = new Random();
-    ArrayList<Integer> DiscardCards = new ArrayList<>();
     LinkedList<Card> Player = new LinkedList<>();
     LinkedList<Card> Opponent = new LinkedList<>();
     LinkedList<Card> OpenCard = new LinkedList<>();
@@ -57,108 +52,92 @@ public class MainActivity extends Activity {
         setContentView(R.layout.content_main);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        Deck = AllCards.newDeck();
-        discard = (Button) findViewById(R.id.discard);
-        declare = (Button) findViewById(R.id.declare);
-        instruction = (TextView) findViewById(R.id.instruction);
-        instruction.setText("Press start to start the game");
+        Deck = Card.newDeck();
+        discard = findViewById(R.id.discard);
+        declare = findViewById(R.id.declare);
+        instruction = findViewById(R.id.instruction);
+        instruction.setText(R.string.msg_press_start);
         discard.setVisibility(View.INVISIBLE);
         declare.setVisibility(View.INVISIBLE);
-        card[0] = (ImageButton) findViewById(R.id.button1);
-        card[1] = (ImageButton) findViewById(R.id.button2);
-        card[2] = (ImageButton) findViewById(R.id.button3);
-        card[3] = (ImageButton) findViewById(R.id.button4);
-        card[4] = (ImageButton) findViewById(R.id.button5);
-        card[5] = (ImageButton) findViewById(R.id.button6);
-        c[0] = (ImageButton) findViewById(R.id.c1);
-        c[1] = (ImageButton) findViewById(R.id.c2);
-        c[2] = (ImageButton) findViewById(R.id.c3);
-        c[3] = (ImageButton) findViewById(R.id.c4);
-        c[4] = (ImageButton) findViewById(R.id.c5);
-        opencard = (ImageButton) findViewById(R.id.opencard);
-        joker = (ImageButton) findViewById(R.id.Joker);
+        card[0] = findViewById(R.id.button1);
+        card[1] = findViewById(R.id.button2);
+        card[2] = findViewById(R.id.button3);
+        card[3] = findViewById(R.id.button4);
+        card[4] = findViewById(R.id.button5);
+        card[5] = findViewById(R.id.button6);
+        c[0] = findViewById(R.id.c1);
+        c[1] = findViewById(R.id.c2);
+        c[2] = findViewById(R.id.c3);
+        c[3] = findViewById(R.id.c4);
+        c[4] = findViewById(R.id.c5);
+        openCard = findViewById(R.id.opencard);
+        joker = findViewById(R.id.Joker);
         joker.setEnabled(false);
-        deck = (ImageButton) findViewById(R.id.deck);
-        startButton = (Button) findViewById(R.id.start);
-        startButton.setText("START");
+        deck = findViewById(R.id.deck);
+        startButton = findViewById(R.id.start);
+        startButton.setText(R.string.btn_start);
         for (int i = 0; i < 5; i++)
             card[i].setImageResource(R.drawable.back);
         card[5].setVisibility(View.INVISIBLE);
-        opencard.setVisibility(View.INVISIBLE);
+        openCard.setVisibility(View.INVISIBLE);
         joker.setVisibility(View.INVISIBLE);
     }
 
     public void start(View v) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Deck = AllCards.newDeck();
-                        while (!Player.isEmpty()) {
-                            Player.removeFirst();
-                        }
-                        while (!Opponent.isEmpty()) {
-                            Opponent.removeFirst();
-                        }
-                        while (!OpenCard.isEmpty()) {
-                            OpenCard.removeFirst();
-                        }
+        new Thread(() -> runOnUiThread(() -> {
+            Deck = Card.newDeck();
+            Player.clear();
+            Opponent.clear();
+            OpenCard.clear();
 
-                        Collections.shuffle(Deck);
-                        for (int i = 0; i < 5; i++) {
-                            Player.add(Deck.get(0));
-                            Deck.remove(0);
-                        }
-
-                        for (int i = 5; i < 10; i++) {
-                            Opponent.add(Deck.get(0));
-                            Deck.remove(0);
-                        }
-
-                        OpenCard.add(Deck.get(0));
-                        Deck.remove(0);
-
-                        Joker = Deck.get(0);
-                        jokerRank = Joker.rank();
-                        Deck.remove(0);
-
-                        card[0].setImageResource(cards[Player.get(0).id()]);
-                        card[1].setImageResource(cards[Player.get(1).id()]);
-                        card[2].setImageResource(cards[Player.get(2).id()]);
-                        card[3].setImageResource(cards[Player.get(3).id()]);
-                        card[4].setImageResource(cards[Player.get(4).id()]);
-                        for (int i = 0; i < 5; i++)
-                            c[i].setImageResource(R.drawable.back);
-                        instruction.setText("OPEN CARD");
-                        opencard.setVisibility(View.VISIBLE);
-                        opencard.setImageResource(cards[OpenCard.getLast().id()]);
-                        instruction.setText("JOKER");
-                        joker.setVisibility(View.VISIBLE);
-                        joker.setImageResource(cards[Joker.id()]);
-                        scaleX = card[0].getScaleX();
-                        scaleY = card[0].getScaleY();
-                        PlayerTurn = true;
-                        instruction.setText("Your Turn! Draw a card from the deck or take the open card.(Or discard a card?)");
-                        TimeToDiscard = false;
-                        discarded = false;
-                        drawn = false;
-                        sameRank = false;
-                        Declared = false;
-                        for (int i = 0; i < 6; i++)
-                            card[i].setEnabled(true);
-                        opencard.setEnabled(true);
-                        deck.setEnabled(true);
-                        CardDisplay();
-                        ShowComputerCards();
-                        startButton.setText("RESTART");
-                    }
-                });
-
+            Collections.shuffle(Deck);
+            for (int i = 0; i < 5; i++) {
+                Player.add(Deck.get(0));
+                Deck.remove(0);
             }
-        });
-        thread.start();
+
+            for (int i = 5; i < 10; i++) {
+                Opponent.add(Deck.get(0));
+                Deck.remove(0);
+            }
+
+            OpenCard.add(Deck.get(0));
+            Deck.remove(0);
+
+            Joker = Deck.get(0);
+            jokerRank = Joker.rank();
+            Deck.remove(0);
+
+            card[0].setImageResource(cards[Player.get(0).id()]);
+            card[1].setImageResource(cards[Player.get(1).id()]);
+            card[2].setImageResource(cards[Player.get(2).id()]);
+            card[3].setImageResource(cards[Player.get(3).id()]);
+            card[4].setImageResource(cards[Player.get(4).id()]);
+            for (int i = 0; i < 5; i++)
+                c[i].setImageResource(R.drawable.back);
+            instruction.setText(R.string.msg_open_card);
+            openCard.setVisibility(View.VISIBLE);
+            openCard.setImageResource(cards[OpenCard.getLast().id()]);
+            instruction.setText(R.string.msg_joker);
+            joker.setVisibility(View.VISIBLE);
+            joker.setImageResource(cards[Joker.id()]);
+            scaleX = card[0].getScaleX();
+            scaleY = card[0].getScaleY();
+            PlayerTurn = true;
+            instruction.setText(R.string.msg_your_turn);
+            TimeToDiscard = false;
+            discarded = false;
+            drawn = false;
+            sameRank = false;
+            Declared = false;
+            for (int i = 0; i < 6; i++)
+                card[i].setEnabled(true);
+            openCard.setEnabled(true);
+            deck.setEnabled(true);
+            CardDisplay();
+            ShowComputerCards();
+            startButton.setText(R.string.btn_restart);
+        })).start();
     }
 
     public int Points(LinkedList<Card> Cards) {
@@ -178,7 +157,7 @@ public class MainActivity extends Activity {
         int i;
         int currRank = -1, highRank = -1;
         int highValue = 0;
-        if (OpenCard.size() > 0) currRank = OpenCard.getLast().rank().ordinal();
+        if (!OpenCard.isEmpty()) currRank = OpenCard.getLast().rank().ordinal();
         for (i = 0; i < temp.size() && currRank != -1; i++) {
             if (temp.get(i).rank().ordinal() == currRank && temp.get(i).rank() != jokerRank) {
                 temp1.add(temp.get(i));
@@ -196,7 +175,7 @@ public class MainActivity extends Activity {
                 highValue = temp.get(i).value();
                 highRank = temp.get(i).rank().ordinal();
             }
-        for (i = 0; i < temp.size() && temp.size() != 0; i++) {
+        for (i = 0; i < temp.size() && !temp.isEmpty(); i++) {
             if (temp.get(i).rank().ordinal() == highRank && temp.get(i).rank() != jokerRank) {
                 temp2.add(temp.get(i));
                 value2 += temp.get(i).value();
@@ -212,7 +191,7 @@ public class MainActivity extends Activity {
                 highValue = temp.get(i).value();
                 highRank = temp.get(i).rank().ordinal();
             }
-        for (i = 0; i < temp.size() && temp.size() != 0; i++) {
+        for (i = 0; i < temp.size() && !temp.isEmpty(); i++) {
             if (temp.get(i).rank().ordinal() == highRank && temp.get(i).rank() != jokerRank) {
                 temp3.add(temp.get(i));
                 value3 += temp.get(i).value();
@@ -221,82 +200,62 @@ public class MainActivity extends Activity {
         for (i = 0; i < temp3.size(); i++) {
             temp.remove(temp3.get(i));
         }
-        Log.d("Oltra", "" + temp1.size() + " " + value1 + " " + temp2.size() + " " + value2 + " " + temp3.size() + " " + value3 + " ");
 
         if (value1 < value2) return value3 > value2 ? temp3 : temp2;
         return value3 > value1 ? temp3 : temp1;
     }
 
     public void computerTurn() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(2500);
-                } catch (Exception e) {
-                    Log.e("can't sleep Exception", e.getMessage());
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        if (!PlayerTurn && !Declared) {
-                            if (Points(Opponent) <= 5) declareNow();
-                            int currRank = -1;
-                            if (OpenCard.size() > 0) currRank = OpenCard.getLast().rank().ordinal();
-                            Log.d("size before", "" + Opponent.size());
-                            LinkedList<Card> temp = Best(Opponent);
-                            Log.d("size after", "" + Opponent.size());
-                            Log.d("Oltra 2", "" + temp.size());
-                            if (temp.size() > 0 && temp.get(0).rank().ordinal() != currRank && currRank != -1) {
-
-                                Log.d("Oltra 3", "" + OpenCard.getLast().value());
-                                if (OpenCard.getLast().value() < 5) {
-                                    Card temp1 = OpenCard.getLast();
-                                    Opponent.add(temp1);
-                                    OpenCard.remove(temp1);
-                                    Log.d("size open", "" + Opponent.size());
-                                } else {
-                                    Opponent.add(Deck.get(0));
-                                    Deck.remove(0);
-                                    Log.d("size deck", "" + Opponent.size());
-                                }
-                            }
-                            int i;
-                            for (i = 0; i < temp.size(); i++) {
-                                Opponent.remove(temp.get(i));
-                                OpenCard.add(temp.get(i));
-                            }
-                            opencard.setVisibility(View.VISIBLE);
-                            opencard.setImageResource(cards[OpenCard.getLast().id()]);
-                            Log.d("size lose", "" + Opponent.size());
-
-                            if (Opponent.size() > 0) {
-
-                                PlayerTurn = true;
-                                TimeToDiscard = false;
-                                discarded = false;
-                                drawn = false;
-                                sameRank = false;
-
-                                for (i = 0; i < 6; i++)
-                                    card[i].setEnabled(true);
-                                opencard.setEnabled(true);
-                                deck.setEnabled(true);
-                                if (Points(Player) < 10) declare.setVisibility(View.VISIBLE);
-                                ShowComputerCards();
-                                instruction.setText("Your Turn! Draw a card from the deck or take the open card.(Or discard a card?)");
-                            } else {
-                                declareNow();
-                            }
+        new Thread(() -> {
+            try {
+                Thread.sleep(2500);
+            } catch (Exception e) {
+                Thread.currentThread().interrupt();
+            }
+            runOnUiThread(() -> {
+                if (!PlayerTurn && !Declared) {
+                    if (Points(Opponent) <= 5) declareNow();
+                    int currRank = -1;
+                    if (!OpenCard.isEmpty()) currRank = OpenCard.getLast().rank().ordinal();
+                    LinkedList<Card> temp = Best(Opponent);
+                    if (!temp.isEmpty() && temp.get(0).rank().ordinal() != currRank && currRank != -1) {
+                        if (OpenCard.getLast().value() < 5) {
+                            Card temp1 = OpenCard.getLast();
+                            Opponent.add(temp1);
+                            OpenCard.remove(temp1);
+                        } else {
+                            Opponent.add(Deck.get(0));
+                            Deck.remove(0);
                         }
                     }
-                });
-            }
-        });
-        thread.start();
+                    int i;
+                    for (i = 0; i < temp.size(); i++) {
+                        Opponent.remove(temp.get(i));
+                        OpenCard.add(temp.get(i));
+                    }
+                    openCard.setVisibility(View.VISIBLE);
+                    openCard.setImageResource(cards[OpenCard.getLast().id()]);
 
+                    if (!Opponent.isEmpty()) {
+                        PlayerTurn = true;
+                        TimeToDiscard = false;
+                        discarded = false;
+                        drawn = false;
+                        sameRank = false;
 
+                        for (i = 0; i < 6; i++)
+                            card[i].setEnabled(true);
+                        openCard.setEnabled(true);
+                        deck.setEnabled(true);
+                        if (Points(Player) < 10) declare.setVisibility(View.VISIBLE);
+                        ShowComputerCards();
+                        instruction.setText(R.string.msg_your_turn);
+                    } else {
+                        declareNow();
+                    }
+                }
+            });
+        }).start();
     }
 
     public void ChooseToDiscard(View v) {
@@ -322,7 +281,6 @@ public class MainActivity extends Activity {
                 }
             }
         }
-
     }
 
     public boolean set(LinkedList<Card> DCards) {
@@ -353,50 +311,40 @@ public class MainActivity extends Activity {
     }
 
     public void ReshuffleDeck() {
-        final Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                deck.setVisibility(View.INVISIBLE);
-                opencard.setVisibility(View.INVISIBLE);
-                instruction.setText(instruction.getText() + "\n\nReshuffling Open Cards");
-                try {
-                    Thread.sleep(2500);
-                } catch (Exception e) {
-                    Log.e("can't sleep Exception", e.getMessage());
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (Deck.size() == 0) {
-                            while (!OpenCard.isEmpty()) {
-                                Deck.add(OpenCard.get(0));
-                                OpenCard.remove(0);
-                            }
-                            Collections.shuffle(Deck);
-                            OpenCard.add(Deck.get(0));
-                            Deck.remove(0);
-                            deck.setVisibility(View.VISIBLE);
-                            opencard.setImageResource(cards[OpenCard.getLast().id()]);
-                            opencard.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-
+        new Thread(() -> {
+            deck.setVisibility(View.INVISIBLE);
+            openCard.setVisibility(View.INVISIBLE);
+            instruction.setText(getString(R.string.msg_reshuffling, instruction.getText()));
+            try {
+                Thread.sleep(2500);
+            } catch (Exception e) {
+                Thread.currentThread().interrupt();
             }
-        });
-        thread.start();
+            runOnUiThread(() -> {
+                if (Deck.isEmpty()) {
+                    while (!OpenCard.isEmpty()) {
+                        Deck.add(OpenCard.get(0));
+                        OpenCard.remove(0);
+                    }
+                    Collections.shuffle(Deck);
+                    OpenCard.add(Deck.get(0));
+                    Deck.remove(0);
+                    deck.setVisibility(View.VISIBLE);
+                    openCard.setImageResource(cards[OpenCard.getLast().id()]);
+                    openCard.setVisibility(View.VISIBLE);
+                }
+            });
+        }).start();
     }
 
     public void discard(View v) {
         int i;
-        if (!CardArray.isEmpty() && CardArray.size() == 1 || set(CardArray)) {
-            opencard.setVisibility(View.VISIBLE);
+        if (CardArray.size() == 1 || set(CardArray)) {
+            openCard.setVisibility(View.VISIBLE);
             TimeToDiscard = false;
-            if (!drawn) {
-                discarded = true;
-            }
+            discarded = !drawn;
             Card.Rank currRank = null;
-            if (OpenCard.size() > 0) currRank = OpenCard.getLast().rank();
+            if (!OpenCard.isEmpty()) currRank = OpenCard.getLast().rank();
             discard.setVisibility(View.INVISIBLE);
             for (i = 0; i < 6; i++)
                 card[i].setEnabled(false);
@@ -408,25 +356,25 @@ public class MainActivity extends Activity {
                 Player.remove(CardArray.get(i));
             }
 
-            opencard.setImageResource(cards[OpenCard.getLast().id()]);
+            openCard.setImageResource(cards[OpenCard.getLast().id()]);
             if (drawn) {
                 PlayerTurn = false;
-                instruction.setText("Cards Discarded. Computer Turn!");
+                instruction.setText(R.string.msg_cards_discarded);
                 deck.setEnabled(false);
-                opencard.setEnabled(false);
+                openCard.setEnabled(false);
                 computerTurn();
             } else if (sameRank) {
                 PlayerTurn = false;
-                instruction.setText("You discarded a card of the same rank as the top card. Computer Turn!");
+                instruction.setText(R.string.msg_same_rank_discard);
                 deck.setEnabled(false);
-                opencard.setEnabled(false);
+                openCard.setEnabled(false);
                 computerTurn();
             } else {
-                opencard.setEnabled(false);
-                instruction.setText("Draw a card from the deck.");
+                openCard.setEnabled(false);
+                instruction.setText(R.string.msg_draw_from_deck);
             }
         } else {
-            instruction.setText("Those cards cannot be discarded. Choose cards again.");
+            instruction.setText(R.string.msg_invalid_discard);
             for (i = 0; i < 6; i++)
                 card[i].setEnabled(true);
         }
@@ -436,8 +384,6 @@ public class MainActivity extends Activity {
         for (i = 0; i < size; i++) {
             CardArray.remove(0);
         }
-        //Log.d("Card Array Size",""+CardArray.size());
-
     }
 
     public void draw(View v) {
@@ -445,38 +391,41 @@ public class MainActivity extends Activity {
             Player.add(Deck.get(0));
             Deck.remove(0);
             CardDisplay();
-            if (Deck.size() == 0) {
+            if (Deck.isEmpty()) {
                 ReshuffleDeck();
             }
             if (!discarded) {
                 drawn = true;
                 TimeToDiscard = true;
-                instruction.setText("Select card(s) to discard.");
+                instruction.setText(R.string.msg_select_to_discard);
             } else {
                 PlayerTurn = false;
-                instruction.setText("Computer Turn!");
+                instruction.setText(R.string.msg_computer_turn);
                 computerTurn();
             }
             deck.setEnabled(false);
-            opencard.setEnabled(false);
+            openCard.setEnabled(false);
         } else {
-            instruction.setText("You can only draw one card. Select card(s) to discard.");
+            instruction.setText(R.string.msg_one_card_only);
         }
     }
 
     public void declareNow() {
         Declared = true;
-        int c = Points(Opponent);
-        int p = Points(Player);
-        String text = "Computer: " + c + " Player: " + p;
-        if (c > p) text += "\nYOU WIN!";
-        else if (c < p) text += "\nCOMPUTER WINS!";
-        else text += "\nIT'S A DRAW";
-        instruction.setText(text);
+        int computerPoints = Points(Opponent);
+        int playerPoints = Points(Player);
+        String result;
+        if (computerPoints > playerPoints)
+            result = getString(R.string.result_win, computerPoints, playerPoints);
+        else if (computerPoints < playerPoints)
+            result = getString(R.string.result_lose, computerPoints, playerPoints);
+        else
+            result = getString(R.string.result_draw, computerPoints, playerPoints);
+        instruction.setText(result);
         int i;
         for (i = 0; i < 6; i++)
             card[i].setEnabled(false);
-        opencard.setEnabled(false);
+        openCard.setEnabled(false);
         deck.setEnabled(false);
         discard.setVisibility(View.INVISIBLE);
         declare.setVisibility(View.INVISIBLE);
@@ -488,30 +437,20 @@ public class MainActivity extends Activity {
     }
 
     public void CardDisplay() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        int i;
-                        for (i = 0; i < Player.size(); i++) {
-                            card[i].setVisibility(View.VISIBLE);
-                            card[i].setImageResource(cards[Player.get(i).id()]);
-                            card[i].setScaleX(scaleX);
-                            card[i].setScaleY(scaleY);
-                        }
-                        for (; i < 6; i++) {
-                            card[i].setVisibility(View.INVISIBLE);
-                            card[i].setScaleX(scaleX);
-                            card[i].setScaleY(scaleY);
-                        }
-                    }
-                });
-
+        new Thread(() -> runOnUiThread(() -> {
+            int i;
+            for (i = 0; i < Player.size(); i++) {
+                card[i].setVisibility(View.VISIBLE);
+                card[i].setImageResource(cards[Player.get(i).id()]);
+                card[i].setScaleX(scaleX);
+                card[i].setScaleY(scaleY);
             }
-        });
-        thread.start();
+            for (; i < 6; i++) {
+                card[i].setVisibility(View.INVISIBLE);
+                card[i].setScaleX(scaleX);
+                card[i].setScaleY(scaleY);
+            }
+        })).start();
     }
 
     public void ShowComputerCards() {
@@ -525,49 +464,39 @@ public class MainActivity extends Activity {
     }
 
     public void DisplayComputerCards() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        int i;
-                        for (i = 0; i < Opponent.size(); i++) {
-                            c[i].setVisibility(View.VISIBLE);
-                            c[i].setImageResource(cards[Opponent.get(i).id()]);
-                        }
-                        for (; i < 5; i++) {
-                            c[i].setVisibility(View.INVISIBLE);
-                        }
-                    }
-                });
-
+        new Thread(() -> runOnUiThread(() -> {
+            int i;
+            for (i = 0; i < Opponent.size(); i++) {
+                c[i].setVisibility(View.VISIBLE);
+                c[i].setImageResource(cards[Opponent.get(i).id()]);
             }
-        });
-        thread.start();
+            for (; i < 5; i++) {
+                c[i].setVisibility(View.INVISIBLE);
+            }
+        })).start();
     }
 
-    public void chooseopencard(View v) {
+    public void chooseOpenCard(View v) {
         if (PlayerTurn && Player.size() < 6) {
             deck.setEnabled(false);
-            opencard.setEnabled(false);
+            openCard.setEnabled(false);
             Card temp = OpenCard.getLast();
             Player.add(temp);
             OpenCard.remove(temp);
-            if (OpenCard.size() > 0) opencard.setImageResource(cards[OpenCard.getLast().id()]);
-            else opencard.setVisibility(View.INVISIBLE);
+            if (!OpenCard.isEmpty()) openCard.setImageResource(cards[OpenCard.getLast().id()]);
+            else openCard.setVisibility(View.INVISIBLE);
             CardDisplay();
             if (!discarded) {
                 TimeToDiscard = true;
-                instruction.setText("Select card(s) to discard.");
+                instruction.setText(R.string.msg_select_to_discard);
                 drawn = true;
             } else {
                 PlayerTurn = false;
-                instruction.setText("Computer Turn!");
+                instruction.setText(R.string.msg_computer_turn);
                 computerTurn();
             }
             deck.setEnabled(false);
-            opencard.setEnabled(false);
+            openCard.setEnabled(false);
         }
     }
 }

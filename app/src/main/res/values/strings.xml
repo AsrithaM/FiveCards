@@ -4,4 +4,22 @@
     <string name="title_activity_home_page">HomePage</string>
     <string name="title_activity_instructions">Instructions</string>
 
+    <!-- MainActivity messages -->
+    <string name="msg_press_start">Press start to start the game</string>
+    <string name="btn_start">START</string>
+    <string name="btn_restart">RESTART</string>
+    <string name="msg_open_card">OPEN CARD</string>
+    <string name="msg_joker">JOKER</string>
+    <string name="msg_your_turn">Your Turn! Draw a card from the deck or take the open card.(Or discard a card?)</string>
+    <string name="msg_cards_discarded">Cards Discarded. Computer Turn!</string>
+    <string name="msg_same_rank_discard">You discarded a card of the same rank as the top card. Computer Turn!</string>
+    <string name="msg_draw_from_deck">Draw a card from the deck.</string>
+    <string name="msg_invalid_discard">Those cards cannot be discarded. Choose cards again.</string>
+    <string name="msg_select_to_discard">Select card(s) to discard.</string>
+    <string name="msg_computer_turn">Computer Turn!</string>
+    <string name="msg_one_card_only">You can only draw one card. Select card(s) to discard.</string>
+    <string name="msg_reshuffling">%1$s\n\nReshuffling Open Cards</string>
+    <string name="result_win">Computer: %1$d  Player: %2$d\nYOU WIN!</string>
+    <string name="result_lose">Computer: %1$d  Player: %2$d\nCOMPUTER WINS!</string>
+    <string name="result_draw">Computer: %1$d  Player: %2$d\nIT\'S A DRAW</string>
 </resources>
