@@ -91,7 +91,7 @@ fun InstructionsScreen(
             // ── HEADER ──
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Minimum Points",
+                text = "Discard Duel",
                 color = Gold,
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold,
