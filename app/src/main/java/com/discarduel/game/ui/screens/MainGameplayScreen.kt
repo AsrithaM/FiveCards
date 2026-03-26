@@ -13,14 +13,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -51,7 +53,6 @@ import com.discarduel.game.ui.theme.FeltDark
 import com.discarduel.game.ui.theme.FeltLight
 import com.discarduel.game.ui.theme.FiveCardsTheme
 import com.discarduel.game.ui.theme.Gold
-import com.discarduel.game.ui.theme.GoldLight
 import com.discarduel.game.ui.theme.GreenZero
 import com.discarduel.game.ui.theme.StatusBg
 
@@ -228,7 +229,15 @@ fun MainGameplayScreen(
                 PointsTag("$playerHandPoints pts")
             }
 
+            val handListState = rememberLazyListState()
+            LaunchedEffect(playerHand.size) {
+                if (playerHand.size > 1) {
+                    handListState.animateScrollToItem(playerHand.size - 1)
+                }
+            }
+
             LazyRow(
+                state = handListState,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(rowH),
@@ -262,7 +271,7 @@ fun MainGameplayScreen(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        PrimaryButton(label = "New Game", onClick = onNewGame)
+                        GoldOutlineButton(label = "New Game", onClick = onNewGame)
                     }
                 }
                 GamePhase.GAME_STARTED -> {
@@ -278,19 +287,25 @@ fun MainGameplayScreen(
                             )
                         }
                         if (canDeclare && isPlayerTurn) {
-                            GoldOutlineButton(
+                            PrimaryButton(
                                 label = "Declare!",
                                 onClick = onDeclare,
                                 modifier = Modifier.weight(1f)
                             )
                         }
-                        if (!(hasSelection && !mustDraw) && !(canDeclare && isPlayerTurn)) {
-                            GoldOutlineButton(
-                                label = "New Game",
-                                onClick = onNewGame,
-                                modifier = Modifier.weight(1f)
-                            )
                         }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        // New Game always visible
+                        GoldOutlineButton(
+                            label = "New Game",
+                            onClick = onNewGame
+                        )
                     }
                 }
             }
