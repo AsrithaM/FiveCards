@@ -94,27 +94,6 @@ fun MainGameplayScreen(
         verticalArrangement = Arrangement.Center
     ) {
 
-        // ── Title ──
-        Text(
-            text = "♠  Discard Duel  ♥",
-            color = Gold,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 2.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
-        Text(
-            text = "Classic Card Game",
-            color = GoldLight.copy(alpha = 0.7f),
-            fontSize = 9.sp,
-            letterSpacing = 3.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
         // ── Status box ──
         Box(
             modifier = Modifier
@@ -140,7 +119,7 @@ fun MainGameplayScreen(
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(150.dp),
+                .height(125.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -228,7 +207,7 @@ fun MainGameplayScreen(
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(150.dp),
+                .height(125.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.Bottom
         ) {

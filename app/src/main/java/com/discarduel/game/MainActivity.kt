@@ -101,7 +101,7 @@ class MainActivity : AppCompatActivity() {
     private var discarded = false
     private var drawn = false
     private var sameRank = false
-    private var Declared = false
+    private var declared = false
     private var completedTurns = 0  // tracks full turns to unlock Declare
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity() {
         jokerRank = jokerCard!!.rank()
 
         PlayerTurn = true
-        discarded = false; drawn = false; sameRank = false; Declared = false
+        discarded = false; drawn = false; sameRank = false; declared = false
         completedTurns = 0
 
         syncUi()
@@ -267,7 +267,7 @@ class MainActivity : AppCompatActivity() {
         Thread {
             Thread.sleep(1500)
             runOnUiThread {
-                if (Declared) return@runOnUiThread
+                if (declared) return@runOnUiThread
 
                 val openTop = if (!OpenCard.isEmpty()) OpenCard.last else null
                 val drew = if (openTop != null && openTop.value() < 5) {
@@ -300,7 +300,7 @@ class MainActivity : AppCompatActivity() {
 
     // ── Computer declares ──
     private fun computerDeclares() {
-        Declared = true
+        declared = true
         val compPts = Points(Opponent)
         val playerPts = Points(Player)
         uiComputerHandPoints = compPts
@@ -317,8 +317,8 @@ class MainActivity : AppCompatActivity() {
 
     // ── Player declares ──
     private fun declareNow() {
-        if (!uiCanDeclare || Declared) return
-        Declared = true
+        if (!uiCanDeclare || declared) return
+        declared = true
         val playerPts = Points(Player)
         val compPts = Points(Opponent)
         uiComputerHandPoints = compPts
@@ -398,6 +398,6 @@ class MainActivity : AppCompatActivity() {
         uiJokerCard = jokerCard
         uiJokerRank = jokerRank
         uiDeckCount = cardDeck.size
-        if (!Declared) uiComputerHandPoints = null  // hide until declared
+        if (!declared) uiComputerHandPoints = null  // hide until declared
     }
 }

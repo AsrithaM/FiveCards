@@ -199,18 +199,9 @@ fun InstructionsScreen(
             )
             StepItem(
                 number = 2,
-                title = "Select cards to discard",
-                body = buildAnnotatedString {
-                    append("Tap one or more cards in your hand to select them. Valid discards are described in the section below. You must retain at least one card at all times.")
-                }
-            )
-            StepItem(
-                number = 3,
                 title = "Discard",
                 body = buildAnnotatedString {
-                    append("Press ")
-                    Badge("Discard")
-                    append(" to place your selected cards onto the Open Pile. Your turn then passes to the computer.")
+                    append("TTap one or more cards in your hand to discard them. Valid discards are described in the section below. You must retain at least one card at all times.")
                 }
             )
 
@@ -238,18 +229,6 @@ fun InstructionsScreen(
 
             GoldRule()
 
-            // ── SWAP WITHOUT DRAWING ──
-            SectionHeading("Swap Without Drawing")
-            BodyText(
-                buildAnnotatedString {
-                    append("If you hold a card (or cards) of the same rank as the current top card of the Open Pile, you may discard them ")
-                    withStyle(SpanStyle(fontStyle = FontStyle.Italic)) { append("without drawing first") }
-                    append(". This can be a useful way to shed cards quickly without adding to your hand.")
-                }
-            )
-
-            GoldRule()
-
             // ── DECLARING ──
             SectionHeading("Declaring")
             Spacer(modifier = Modifier.height(8.dp))
@@ -259,12 +238,12 @@ fun InstructionsScreen(
                     text = "Press Declare! at the start of your turn (before drawing) when you believe your hand has fewer points than the computer's."
                 )
                 RuleCard(
-                    suit = "♥", title = "If You Win",
-                    text = "Your point total is lower than the computer's. You win the round and a point is added to your score."
+                    suit = "♥", title = "You Win",
+                    text = "If your point total is lower than the computer's."
                 )
                 RuleCard(
-                    suit = "♦", title = "If You Lose",
-                    text = "The computer's total is equal to or lower than yours. The computer wins the round despite your declaration."
+                    suit = "♦", title = "You Lose",
+                    text = "If the computer's total is lower than yours. The computer wins despite your declaration."
                 )
                 RuleCard(
                     suit = "♣", title = "Computer Declares",
@@ -298,18 +277,6 @@ fun InstructionsScreen(
                     append("If the deck is exhausted, the Open Pile is reshuffled (excluding the top card) and play continues.")
                 }
             )
-
-            // ── FOOTER ──
-            Spacer(modifier = Modifier.height(40.dp))
-            Text(
-                text = "♠  Minimum Points  ♠  Complete Rules",
-                color = Gold.copy(alpha = 0.25f),
-                fontSize = 10.sp,
-                letterSpacing = 3.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
