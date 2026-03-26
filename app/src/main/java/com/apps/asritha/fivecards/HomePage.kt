@@ -1,30 +1,24 @@
-package com.apps.asritha.fivecards;
+package com.apps.asritha.fivecards
 
-import android.content.Intent;
-import android.os.Bundle;
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 
-import androidx.appcompat.app.AppCompatActivity;
+class HomePage : AppCompatActivity() {
 
-import android.view.View;
-import android.view.WindowManager;
-
-public class HomePage extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_home_page);
-
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.content_home_page)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
 
-    public void play(View v) {
-        Intent i = new Intent(HomePage.this, MainActivity.class);
-        startActivity(i);
+    fun play(v: View) {
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
-    public void rules(View v) {
-        Intent i = new Intent(HomePage.this, Instructions.class);
-        startActivity(i);
+    fun rules(v: View) {
+        startActivity(Intent(this, Instructions::class.java))
     }
 }

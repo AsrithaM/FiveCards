@@ -22,4 +22,15 @@
     <string name="result_win">Computer: %1$d  Player: %2$d\nYOU WIN!</string>
     <string name="result_lose">Computer: %1$d  Player: %2$d\nCOMPUTER WINS!</string>
     <string name="result_draw">Computer: %1$d  Player: %2$d\nIT\'S A DRAW</string>
+
+    <!-- Button labels -->
+    <string name="btn_discard">Discard</string>
+    <string name="btn_declare">DECLARE</string>
+
+    <!-- Content descriptions -->
+    <string name="cd_player_card">Player card</string>
+    <string name="cd_opponent_card">Opponent card</string>
+    <string name="cd_open_card">Open card</string>
+    <string name="cd_joker_card">Joker</string>
+    <string name="cd_deck">Card deck</string>
 </resources>

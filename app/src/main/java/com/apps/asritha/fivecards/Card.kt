@@ -1,67 +1,41 @@
-package com.apps.asritha.fivecards;
+package com.apps.asritha.fivecards
 
-import java.util.LinkedList;
+import java.util.LinkedList
 
-/**
- * Created by Asritha on 05-05-2016.
- */
-public class Card {
+class Card(
+    private val cardRank: Rank?,
+    private val cardSuit: Suit?,
+    private val drawableId: Int,
+    private val cardValue: Int
+) {
+    enum class Rank { ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING }
+    enum class Suit { CLUBS, DIAMONDS, HEARTS, SPADES }
 
-    public enum Rank {ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING}
+    fun rank(): Rank? = cardRank
+    fun suit(): Suit? = cardSuit
+    fun id(): Int = drawableId
+    fun value(): Int = cardValue
 
-    public static LinkedList<Card> deck = new LinkedList<Card>();
+    companion object {
+        private val vals: Array<Rank> = Rank.values()
+        val deck: LinkedList<Card> = LinkedList()
 
-    public enum Suit {CLUBS, DIAMONDS, HEARTS, SPADES}
-
-    static Rank[] vals = Rank.values();
-
-    static {
-        int i = 0, x;
-        for (Suit suit : Suit.values())
-            for (Rank rank : Rank.values()) {
-                x = rank.ordinal();
-                if (x == 10 || x == 11 || x == 12)
-                    x = 9;
-                deck.add(new Card(rank, suit, i, x + 1));
-                i++;
+        init {
+            var i = 0
+            for (suit in Suit.values()) {
+                for (rank in Rank.values()) {
+                    var x = rank.ordinal
+                    if (x == 10 || x == 11 || x == 12) x = 9
+                    deck.add(Card(rank, suit, i, x + 1))
+                    i++
+                }
             }
-        deck.add(new Card(null, null, 52, 0));
-        deck.add(new Card(null, null, 53, 0));
-    }
+            deck.add(Card(null, null, 52, 0))
+            deck.add(Card(null, null, 53, 0))
+        }
 
-    public Card(Rank rank, Suit suit, int x, int n) {
-        this.rank = rank;
-        this.suit = suit;
-        this.drawableId = x;
-        this.value = n;
-    }
+        fun next(r: Rank): Rank = vals[(r.ordinal + 1) % vals.size]
 
-    public static Rank next(Rank r) {
-        return vals[(r.ordinal() + 1) % vals.length];
-    }
-
-    private Rank rank;
-    private Suit suit;
-    private int drawableId;
-    private int value;
-
-    public Rank rank() {
-        return rank;
-    }
-
-    public Suit suit() {
-        return suit;
-    }
-
-    public int id() {
-        return drawableId;
-    }
-
-    public int value() {
-        return value;
-    }
-
-    public static LinkedList<Card> newDeck() {
-        return new LinkedList<Card>(deck);// Return copy of prototype deck
+        fun newDeck(): LinkedList<Card> = LinkedList(deck)
     }
 }
