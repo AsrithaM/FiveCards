@@ -1,0 +1,31 @@
+package com.apps.asritha.fivecards.ui.theme
+
+import androidx.compose.ui.graphics.Color
+
+val TableGreen = Color(0xFF1B5E20)
+val TableGreenDark = Color(0xFF0A3D0A)
+val TableGreenLight = Color(0xFF2E7D32)
+val GoldAccent = Color(0xFFFFD700)
+val GoldDark = Color(0xFFB8860B)
+val CardWhite = Color(0xFFFAFAFA)
+val CardRed = Color(0xFFD32F2F)
+val ChipBlue = Color(0xFF1565C0)
+val NavBackground = Color(0xFF0D2B0D)
+val NavSelected = Color(0xFFFFD700)
+val NavUnselected = Color(0xFF66BB6A)
+val ResultWinGold = Color(0xFFFFD700)
+val ResultLoseRed = Color(0xFFEF5350)
+val ScoreBackground = Color(0x99000000)
+val TurnIndicatorBg = Color(0xFF2E7D32)
+
+val Felt = Color(0xFF1A4A2E)
+val FeltLight = Color(0xFF225C38)
+val FeltDark = Color(0xFF0F2E1B)
+val Gold = Color(0xFFC9A84C)
+val GoldLight = Color(0xFFE8C96A)
+val Cream = Color(0xFFF5EDD6)
+val CreamFaded = Color(0xE0F5EDD6)
+val Red = Color(0xFFC0392B)
+val GreenPoints = Color(0xFF2ECC71)
+val RuleCardBg = Color(0x40000000)
+val ExampleBg = Color(0x33000000)

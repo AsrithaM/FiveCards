@@ -2,23 +2,24 @@ package com.apps.asritha.fivecards
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import com.apps.asritha.fivecards.ui.screens.GameStartScreen
+import com.apps.asritha.fivecards.ui.theme.FiveCardsTheme
 
 class HomePage : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.content_home_page)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-    }
-
-    fun play(v: View) {
-        startActivity(Intent(this, MainActivity::class.java))
-    }
-
-    fun rules(v: View) {
-        startActivity(Intent(this, Instructions::class.java))
+        setContent {
+            FiveCardsTheme {
+                GameStartScreen(
+                    onStartGame = { startActivity(Intent(this, MainActivity::class.java)) },
+                    onHowToPlay = { startActivity(Intent(this, Instructions::class.java)) }
+                )
+            }
+        }
     }
 }
