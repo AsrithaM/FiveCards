@@ -2,6 +2,7 @@ package com.apps.asritha.fivecards.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,142 +16,154 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.apps.asritha.fivecards.R
-import com.apps.asritha.fivecards.ui.components.NavTab
+import com.apps.asritha.fivecards.ui.theme.Cream
+import com.apps.asritha.fivecards.ui.theme.CreamFaded
+import com.apps.asritha.fivecards.ui.theme.Felt
+import com.apps.asritha.fivecards.ui.theme.FeltDark
+import com.apps.asritha.fivecards.ui.theme.FeltLight
 import com.apps.asritha.fivecards.ui.theme.FiveCardsTheme
-import com.apps.asritha.fivecards.ui.theme.GoldAccent
-import com.apps.asritha.fivecards.ui.theme.TableGreen
-import com.apps.asritha.fivecards.ui.theme.TableGreenDark
+import com.apps.asritha.fivecards.ui.theme.Gold
+import com.apps.asritha.fivecards.ui.theme.GoldLight
+import com.apps.asritha.fivecards.ui.theme.RuleCardBg
 
 @Composable
 fun GameStartScreen(
-    onStartGame: () -> Unit = {}, onHowToPlay: () -> Unit = {}
+    onStartGame: () -> Unit = {},
+    onHowToPlay: () -> Unit = {}
 ) {
-    var selectedTab by remember { mutableStateOf(NavTab.TABLE) }
-
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(TableGreenDark)
+            .background(
+                Brush.radialGradient(
+                    colorStops = arrayOf(
+                        0.0f to FeltLight,
+                        0.4f to Felt,
+                        1.0f to FeltDark
+                    )
+                )
+            ),
+        contentAlignment = Alignment.Center
     ) {
-        // Card fan and table area
-        Box(
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
-                .background(TableGreen)
-                .padding(16.dp),
-            contentAlignment = Alignment.Center
+                .padding(horizontal = 32.dp)
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Image(
-                    painter = painterResource(id = R.drawable.logo),
-                    contentDescription = "Discard Duel logo",
-                    modifier = Modifier.size(150.dp)
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "Discard Duel logo",
+                modifier = Modifier.size(150.dp)
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "DISCARD DUEL",
+                color = Gold,
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 4.sp,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = "Classic Card Game",
+                color = GoldLight.copy(alpha = 0.7f),
+                fontSize = 13.sp,
+                letterSpacing = 3.sp,
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Info card
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(RuleCardBg, RoundedCornerShape(12.dp))
+                    .border(1.dp, Gold.copy(alpha = 0.2f), RoundedCornerShape(12.dp))
+                    .padding(16.dp)
+            ) {
+                InfoRow(label = "Players", value = "1 vs Computer")
+                HorizontalDivider(
+                    color = Gold.copy(alpha = 0.1f),
+                    modifier = Modifier.padding(vertical = 8.dp)
                 )
+                InfoRow(label = "Deck", value = "54 Cards (with Jokers)")
+                HorizontalDivider(
+                    color = Gold.copy(alpha = 0.1f),
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+                InfoRow(label = "Goal", value = "Lowest score wins")
+            }
 
-                Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(28.dp))
 
+            Button(
+                onClick = onStartGame,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
+                shape = RoundedCornerShape(26.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Gold,
+                    contentColor = FeltDark
+                )
+            ) {
                 Text(
-                    text = "DISCARD DUEL",
-                    color = GoldAccent,
-                    fontSize = 28.sp,
+                    text = "START GAME",
                     fontWeight = FontWeight.Bold,
-                    letterSpacing = 4.sp
+                    fontSize = 16.sp,
+                    letterSpacing = 2.sp
                 )
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            OutlinedButton(
+                onClick = onHowToPlay,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
+                shape = RoundedCornerShape(26.dp),
+                border = androidx.compose.foundation.BorderStroke(1.dp, Gold.copy(alpha = 0.6f)),
+                colors = androidx.compose.material3.ButtonDefaults.outlinedButtonColors(
+                    contentColor = Gold
+                )
+            ) {
                 Text(
-                    text = "Classic Card Game",
-                    color = Color.White.copy(alpha = 0.7f),
-                    fontSize = 14.sp
+                    text = "HOW TO PLAY",
+                    fontSize = 14.sp,
+                    letterSpacing = 1.sp
                 )
-
-                Spacer(modifier = Modifier.height(32.dp))
-
-                // Server info card
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = TableGreenDark.copy(alpha = 0.8f))
-                ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        InfoRow(label = "Players", value = "1 vs Computer")
-                        Divider(
-                            color = Color.White.copy(alpha = 0.1f),
-                            modifier = Modifier.padding(vertical = 6.dp)
-                        )
-                        InfoRow(label = "Deck", value = "54 Cards (with Jokers)")
-                        Divider(
-                            color = Color.White.copy(alpha = 0.1f),
-                            modifier = Modifier.padding(vertical = 6.dp)
-                        )
-                        InfoRow(label = "Goal", value = "Lowest score wins")
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Button(
-                    onClick = onStartGame,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp),
-                    shape = RoundedCornerShape(26.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = GoldAccent)
-                ) {
-                    Text(
-                        text = "START GAME",
-                        color = TableGreenDark,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        letterSpacing = 2.sp
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                TextButton(onClick = onHowToPlay) {
-                    Text(
-                        text = "HOW TO PLAY",
-                        color = GoldAccent.copy(alpha = 0.8f),
-                        fontSize = 14.sp,
-                        letterSpacing = 1.sp
-                    )
-                }
             }
         }
-
-//        BottomNavBar(
-//            selectedTab = selectedTab,
-//            onTabSelected = { selectedTab = it }
-//        )
     }
 }
 
 @Composable
 private fun InfoRow(label: String, value: String) {
     Row(
-        modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = label, color = Color.White.copy(alpha = 0.6f), fontSize = 13.sp)
-        Text(text = value, color = Color.White, fontSize = 13.sp, fontWeight = FontWeight.Medium)
+        Text(text = label, color = CreamFaded, fontSize = 13.sp)
+        Text(text = value, color = Cream, fontSize = 13.sp, fontWeight = FontWeight.Medium)
     }
 }
 
