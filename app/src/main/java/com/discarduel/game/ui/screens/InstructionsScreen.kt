@@ -1,4 +1,4 @@
-package com.apps.asritha.fivecards.ui.screens
+package com.discarduel.game.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -37,17 +37,17 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.apps.asritha.fivecards.ui.theme.Cream
-import com.apps.asritha.fivecards.ui.theme.CreamFaded
-import com.apps.asritha.fivecards.ui.theme.ExampleBg
-import com.apps.asritha.fivecards.ui.theme.Felt
-import com.apps.asritha.fivecards.ui.theme.FeltDark
-import com.apps.asritha.fivecards.ui.theme.FeltLight
-import com.apps.asritha.fivecards.ui.theme.FiveCardsTheme
-import com.apps.asritha.fivecards.ui.theme.Gold
-import com.apps.asritha.fivecards.ui.theme.GreenPoints
-import com.apps.asritha.fivecards.ui.theme.Red
-import com.apps.asritha.fivecards.ui.theme.RuleCardBg
+import com.discarduel.game.ui.theme.Cream
+import com.discarduel.game.ui.theme.CreamFaded
+import com.discarduel.game.ui.theme.ExampleBg
+import com.discarduel.game.ui.theme.Felt
+import com.discarduel.game.ui.theme.FeltDark
+import com.discarduel.game.ui.theme.FeltLight
+import com.discarduel.game.ui.theme.FiveCardsTheme
+import com.discarduel.game.ui.theme.Gold
+import com.discarduel.game.ui.theme.GreenPoints
+import com.discarduel.game.ui.theme.Red
+import com.discarduel.game.ui.theme.RuleCardBg
 
 @Composable
 fun InstructionsScreen(

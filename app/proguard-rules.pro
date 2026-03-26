@@ -56,9 +56,9 @@
 # ============================================================
 
 # Card model: used via enum reflection and direct field access
--keep class com.apps.asritha.fivecards.Card { *; }
--keep class com.apps.asritha.fivecards.Card$Rank { *; }
--keep class com.apps.asritha.fivecards.Card$Suit { *; }
+-keep class com.discarduel.game.Card { *; }
+-keep class com.discarduel.game.Card$Rank { *; }
+-keep class com.discarduel.game.Card$Suit { *; }
 
 # ============================================================
 # Obfuscation & optimisation settings

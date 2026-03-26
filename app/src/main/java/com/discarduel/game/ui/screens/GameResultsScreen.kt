@@ -1,4 +1,4 @@
-package com.apps.asritha.fivecards.ui.screens
+package com.discarduel.game.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -38,14 +38,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.apps.asritha.fivecards.ui.components.BottomNavBar
-import com.apps.asritha.fivecards.ui.components.NavTab
-import com.apps.asritha.fivecards.ui.theme.FiveCardsTheme
-import com.apps.asritha.fivecards.ui.theme.GoldAccent
-import com.apps.asritha.fivecards.ui.theme.ResultLoseRed
-import com.apps.asritha.fivecards.ui.theme.ResultWinGold
-import com.apps.asritha.fivecards.ui.theme.TableGreen
-import com.apps.asritha.fivecards.ui.theme.TableGreenDark
+import com.discarduel.game.ui.components.BottomNavBar
+import com.discarduel.game.ui.components.NavTab
+import com.discarduel.game.ui.theme.FiveCardsTheme
+import com.discarduel.game.ui.theme.GoldAccent
+import com.discarduel.game.ui.theme.ResultLoseRed
+import com.discarduel.game.ui.theme.ResultWinGold
+import com.discarduel.game.ui.theme.TableGreen
+import com.discarduel.game.ui.theme.TableGreenDark
 
 enum class GameResult { WIN, LOSE, DRAW }
 

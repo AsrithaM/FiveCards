@@ -1,4 +1,4 @@
-package com.apps.asritha.fivecards.ui.theme
+package com.discarduel.game.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

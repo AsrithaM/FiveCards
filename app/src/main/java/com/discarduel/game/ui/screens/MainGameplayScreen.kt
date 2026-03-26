@@ -1,4 +1,4 @@
-package com.apps.asritha.fivecards.ui.screens
+package com.discarduel.game.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -37,17 +37,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.apps.asritha.fivecards.Card
-import com.apps.asritha.fivecards.R
-import com.apps.asritha.fivecards.ui.theme.Cream
-import com.apps.asritha.fivecards.ui.theme.Felt
-import com.apps.asritha.fivecards.ui.theme.FeltDark
-import com.apps.asritha.fivecards.ui.theme.FeltLight
-import com.apps.asritha.fivecards.ui.theme.FiveCardsTheme
-import com.apps.asritha.fivecards.ui.theme.Gold
-import com.apps.asritha.fivecards.ui.theme.GoldLight
-import com.apps.asritha.fivecards.ui.theme.GreenZero
-import com.apps.asritha.fivecards.ui.theme.StatusBg
+import com.discarduel.game.Card
+import com.discarduel.game.R
+import com.discarduel.game.ui.theme.Cream
+import com.discarduel.game.ui.theme.Felt
+import com.discarduel.game.ui.theme.FeltDark
+import com.discarduel.game.ui.theme.FeltLight
+import com.discarduel.game.ui.theme.FiveCardsTheme
+import com.discarduel.game.ui.theme.Gold
+import com.discarduel.game.ui.theme.GoldLight
+import com.discarduel.game.ui.theme.GreenZero
+import com.discarduel.game.ui.theme.StatusBg
 
 enum class GamePhase { IDLE, GAME_STARTED }
 

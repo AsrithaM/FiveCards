@@ -1,4 +1,4 @@
-package com.apps.asritha.fivecards
+package com.discarduel.game
 
 import java.util.LinkedList
 

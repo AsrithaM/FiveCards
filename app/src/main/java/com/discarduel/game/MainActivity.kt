@@ -1,4 +1,4 @@
-package com.apps.asritha.fivecards
+package com.discarduel.game
 
 import android.os.Bundle
 import android.view.WindowManager
@@ -8,9 +8,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import com.apps.asritha.fivecards.ui.screens.GamePhase
-import com.apps.asritha.fivecards.ui.screens.MainGameplayScreen
-import com.apps.asritha.fivecards.ui.theme.FiveCardsTheme
+import com.discarduel.game.ui.screens.GamePhase
+import com.discarduel.game.ui.screens.MainGameplayScreen
+import com.discarduel.game.ui.theme.FiveCardsTheme
 import java.util.Collections
 import java.util.LinkedList
 

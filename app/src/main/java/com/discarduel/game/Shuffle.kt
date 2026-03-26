@@ -1,4 +1,4 @@
-package com.apps.asritha.fivecards
+package com.discarduel.game
 
 class Shuffle : Comparator<Card> {
     override fun compare(c1: Card, c2: Card): Int {

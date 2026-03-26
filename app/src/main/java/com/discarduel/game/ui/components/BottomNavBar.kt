@@ -1,4 +1,4 @@
-package com.apps.asritha.fivecards.ui.components
+package com.discarduel.game.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,9 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.apps.asritha.fivecards.ui.theme.NavBackground
-import com.apps.asritha.fivecards.ui.theme.NavSelected
-import com.apps.asritha.fivecards.ui.theme.NavUnselected
+import com.discarduel.game.ui.theme.NavBackground
+import com.discarduel.game.ui.theme.NavSelected
+import com.discarduel.game.ui.theme.NavUnselected
 
 enum class NavTab { TABLE, BET, DEALS, LOUNGE }
 
