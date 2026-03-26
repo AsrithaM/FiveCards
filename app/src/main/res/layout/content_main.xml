@@ -110,7 +110,7 @@
         android:layout_above="@+id/button4"
         android:layout_toRightOf="@+id/Joker"
         android:layout_toEndOf="@+id/Joker"
-        android:onClick="chooseopencard"/>
+        android:onClick="chooseOpenCard"/>
 
 
     <ImageButton
