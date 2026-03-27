@@ -103,6 +103,7 @@ fun MainGameplayScreen(
         val cardH: Dp = (cardW * 1.5f).coerceIn(72.dp, 120.dp)
         val rowH: Dp = cardH + 24.dp
         val vSpacing: Dp = (screenH * 0.012f).coerceIn(4.dp, 10.dp)
+        val handRowWidth: Dp = cardW * 5 + 24.dp  // 5 cards + 4 gaps of 6dp
 
         Column(
             modifier = Modifier
@@ -272,7 +273,7 @@ fun MainGameplayScreen(
                 }
                 GamePhase.GAME_STARTED -> {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.width(handRowWidth),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         if (hasSelection && !mustDraw) {
@@ -289,20 +290,14 @@ fun MainGameplayScreen(
                                 modifier = Modifier.weight(1f)
                             )
                         }
-                        }
+                    }
 
                     Spacer(modifier = Modifier.height(10.dp))
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        // New Game always visible
-                        GoldOutlineButton(
-                            label = "New Game",
-                            onClick = onNewGame
-                        )
-                    }
+                    GoldOutlineButton(
+                        label = "New Game",
+                        onClick = onNewGame
+                    )
                 }
             }
         }
