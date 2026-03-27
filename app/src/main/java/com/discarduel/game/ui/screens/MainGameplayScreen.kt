@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -23,9 +22,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -99,18 +96,17 @@ fun MainGameplayScreen(
                 )
             )
     ) {
-        // Derive card dimensions from available screen height
+        // cardW: fit exactly 5 cards across the usable width
+        // usable = maxWidth - column horizontal padding (24dp) - 4 gaps between cards (4×6dp)
         val screenH = maxHeight
-        val cardH: Dp = (screenH * 0.13f).coerceIn(64.dp, 108.dp)
-        val cardW: Dp = cardH * (2f / 3f)
+        val cardW: Dp = ((maxWidth - 48.dp) / 5).coerceIn(48.dp, 80.dp)
+        val cardH: Dp = (cardW * 1.5f).coerceIn(72.dp, 120.dp)
         val rowH: Dp = cardH + 24.dp
         val vSpacing: Dp = (screenH * 0.012f).coerceIn(4.dp, 10.dp)
 
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = screenH)
-                .verticalScroll(rememberScrollState())
+                .fillMaxSize()
                 .padding(horizontal = 12.dp, vertical = 16.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -231,7 +227,7 @@ fun MainGameplayScreen(
 
             val handListState = rememberLazyListState()
             LaunchedEffect(playerHand.size) {
-                if (playerHand.size > 1) {
+                if (playerHand.size == 6) {
                     handListState.animateScrollToItem(playerHand.size - 1)
                 }
             }
@@ -367,7 +363,7 @@ private fun FaceDownCard(cardW: Dp = 64.dp, cardH: Dp = 96.dp, pulsing: Boolean 
             .border(
                 width = if (pulsing) 2.dp else 1.dp,
                 color = if (pulsing) Gold.copy(alpha = 0.8f) else Color.White.copy(alpha = 0.15f),
-                shape = RoundedCornerShape(6.dp)
+                shape = RoundedCornerShape(2.dp)
             )
     )
 }
@@ -385,7 +381,6 @@ private fun CardImage(
 ) {
     val borderColor = when {
         selected    -> Gold
-        isZeroValue -> GreenZero
         selectable  -> Gold.copy(alpha = 0.5f)
         else        -> Color.White.copy(alpha = 0.15f)
     }
@@ -399,7 +394,7 @@ private fun CardImage(
             .border(
                 width = if (selected || isZeroValue) 2.dp else 1.dp,
                 color = borderColor,
-                shape = RoundedCornerShape(6.dp)
+                shape = RoundedCornerShape(2.dp)
             )
             .then(if (selectable || selected) Modifier.clickable { onClick() } else Modifier)
     )
